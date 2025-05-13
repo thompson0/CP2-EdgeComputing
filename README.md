@@ -7,7 +7,7 @@ Projeto desenvolvido para o Checkpoint 02 da disciplina Edge Computing & Compute
 -Gabriel Thompson\
 -Nicolas Baradel\
 -João Pedro Sassarão\
--Juan Pablo Molina\
+-Juan Pablo Molina
 
 ## Objetivo
 
