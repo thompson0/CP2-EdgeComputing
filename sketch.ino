@@ -19,13 +19,13 @@ LiquidCrystal_I2C lcd(ende, col, lin);
 
 
 byte shit[8] = {
-  B00001,
+  B00000,
   B00011,
   B00101,
   B01001,
   B10001,
   B10001,
-  B11111,
+  B01011,
 };
 
 #include <Adafruit_Sensor.h>
@@ -75,6 +75,7 @@ void loop() {
   
   int ldrValue = analogRead(ldrPhotoSensor);
   Serial.println(ldrPhotoSensor);
+  Serial.println("Luz em lux");
   unsigned long currentTime = millis();
 
   digitalWrite(ledGreenPin, LOW);
@@ -88,7 +89,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Luz boa");
-    delay(300);
+    delay(3000);
     lcd.clear();
   }
   else if (ldrValue >= 301 && ldrValue <= 800) {
@@ -98,7 +99,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Ambiente a meia luz");
-    delay(300);
+    delay(3000);
     lcd.clear();
   }
   else if (ldrValue > 801) {
