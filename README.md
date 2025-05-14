@@ -1,6 +1,6 @@
 # Vinheria Agnello - Monitoramento de Ambiente com Arduino
 
-Projeto desenvolvido para o Checkpoint 02 da disciplina Edge Computing & Computer Systems no curso de Engenharia de Software - FIAP.
+Projeto desenvolvido para o Checkpoint 02 da disciplina Edge Computing & Computer Systems no curso de Engenharia de Software da sala 1ESR - FIAP.
 
 ## Integrantes
 
@@ -41,4 +41,4 @@ Atender à demanda da Vinheria Agnello de monitorar as condições ambientais do
 
 
 
-## Link do video explicativo
+[- Link do video explicativo](https://www.youtube.com/watch?v=qYjGLK8416k)

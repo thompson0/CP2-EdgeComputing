@@ -17,7 +17,6 @@ bool mediaCalculada = false;
 #define ende  0x27
 LiquidCrystal_I2C lcd(ende, col, lin);
 
-
 byte shit[8] = {
   B00000,
   B00011,
@@ -32,12 +31,14 @@ byte shit[8] = {
 #include <DHT.h>
 #include <DHT_U.h>
 #define DHTTYPE DHT22
+//#define DHTTYPE DHT11
 #define DHTPIN 2
 DHT_Unified dht(DHTPIN, DHTTYPE);
 uint32_t delayMS;
 
 
 void setup() {
+
   pinMode(ledRedPin, OUTPUT);
   pinMode(ledYellowPin, OUTPUT);
   pinMode(ledGreenPin, OUTPUT);
@@ -51,7 +52,6 @@ void setup() {
   Serial.print(sensor.max_value);
   Serial.print(sensor.min_value);
   Serial.print(sensor.resolution);
-
   lcd.init();
   lcd.backlight();
   lcd.clear();
@@ -72,16 +72,13 @@ void setup() {
 }
 
 void loop() {
-  
+  // Valores do led
   int ldrValue = analogRead(ldrPhotoSensor);
-  Serial.println(ldrPhotoSensor);
-  Serial.println("Luz em lux");
+  Serial.println(ldrValue); Serial.println("Luz em lux");
   unsigned long currentTime = millis();
-
   digitalWrite(ledGreenPin, LOW);
   digitalWrite(ledYellowPin, LOW);
   digitalWrite(ledRedPin, LOW);
-
   if (ldrValue >= 0 && ldrValue <= 300) {
     digitalWrite(ledGreenPin, HIGH);
     noTone(boozerPin);
@@ -92,17 +89,19 @@ void loop() {
     delay(3000);
     lcd.clear();
   }
-  else if (ldrValue >= 301 && ldrValue <= 800) {
+  else if (ldrValue >= 301 && ldrValue <= 700) {
     digitalWrite(ledYellowPin, HIGH);
     noTone(boozerPin);
     boozerActive = false;
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Ambiente a meia luz");
+    lcd.print("Ambiente a meia");
+    lcd.setCursor(0, 1);
+    lcd.print("luz");
     delay(3000);
     lcd.clear();
   }
-  else if (ldrValue > 801) {
+  else if (ldrValue > 701) {
     digitalWrite(ledRedPin, HIGH);
     if (!boozerActive) {
       tone(boozerPin, 262, currentTime);
@@ -111,7 +110,9 @@ void loop() {
     }
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Ambiente muito claro");
+    lcd.print("Ambiente muito");
+    lcd.setCursor(0, 1);
+    lcd.print("CLARO");
     delay(3000);
     lcd.clear();
   }
@@ -143,11 +144,14 @@ void loop() {
     
     }
 
+  // Pega as ultimas 5 temperaturas e faz a média
   ultimasTemperaturas[indiceTemp] = tempEvent.temperature;
   indiceTemp = (indiceTemp + 1) %5 ;
   float mediaTemperatura = (
   ultimasTemperaturas[0] + ultimasTemperaturas[1] + ultimasTemperaturas[2] + ultimasTemperaturas[3] + ultimasTemperaturas[4]
   ) / 5.0;
+
+  // Pega as ultimas 5 umidades e faz a média
   ultimasUmidades[indiceUmi] = humidEvent.relative_humidity;
   indiceUmi = (indiceUmi + 1) %5;
   float mediaUmi = (
@@ -157,6 +161,7 @@ void loop() {
   mediaCalculada = true;
   }
 
+  // Valores da temperatura
   if(mediaCalculada){
       //temperatura
     if (mediaTemperatura >= 10 && mediaTemperatura <= 15) {
@@ -200,7 +205,7 @@ void loop() {
     }
 
     //umidade
-
+    // Valores da umidade
     if (mediaUmi >= 50 && mediaUmi <= 70) {
       lcd.clear();
       lcd.setCursor(0, 0);
